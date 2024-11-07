@@ -8,6 +8,7 @@ const router = Router()
 router.route('/self').get(apiController.self)
 router.route('/health').get(apiController.health)
 
+// Authentication routes
 router.route('/register').post(rateLimit, apiController.register)
 
 router.route('/confirmation/:token').put(rateLimit, apiController.confirmation)
@@ -27,3 +28,4 @@ router.route('/reset-password/:token').put(rateLimit, apiController.resetPasswor
 router.route('/change-password').put(authentication, apiController.changePassword)
 
 export default router
+
