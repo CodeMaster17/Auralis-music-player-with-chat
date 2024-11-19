@@ -2,6 +2,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import LeftSidebar from "./components/LeftSidebar";
+import PlayBackControls from "./components/PlayBackControls";
 const MainLayout = () => {
 
     // checking for mobile device
@@ -45,6 +46,9 @@ const MainLayout = () => {
                     </>
                 )}
             </ResizablePanelGroup>
+
+            {/* Playback controls */}
+            <PlayBackControls />
         </div>
     )
 }
