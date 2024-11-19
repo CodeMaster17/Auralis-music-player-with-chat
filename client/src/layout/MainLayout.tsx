@@ -25,8 +25,16 @@ const MainLayout = () => {
                     <Outlet />
                 </ResizablePanel>
 
-                <ResizableHandle />
-                <ResizablePanel>Two</ResizablePanel>
+                {!isMobile && (
+                    <>
+                        <ResizableHandle className='w-2 bg-black rounded-lg transition-colors' />
+
+                        {/* right sidebar */}
+                        <ResizablePanel defaultSize={20} minSize={0} maxSize={25} collapsedSize={0}>
+                            {/* Friends Activity */}
+                        </ResizablePanel>
+                    </>
+                )}
             </ResizablePanelGroup>
         </div>
     )
