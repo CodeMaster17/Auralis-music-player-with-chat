@@ -1,4 +1,5 @@
 import CurrentPlayingSong from "./CurrentPlayingSong"
+import PlayerControls from "./PlayerControls"
 
 const PlayBackControls = () => {
     return (
@@ -11,7 +12,12 @@ const PlayBackControls = () => {
                     title="Song title"
                     artist="Song artist"
                 />
+
+                {/* Player Controls */}
+                <PlayerControls />
             </div>
+
+
         </footer>
 
     )

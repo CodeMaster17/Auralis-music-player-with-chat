@@ -47,7 +47,7 @@ const MainLayout = () => {
                 )}
             </ResizablePanelGroup>
 
-            {/* Playback controls */}
+            {/* Playback controls at footer*/}
             <PlayBackControls />
         </div>
     )
