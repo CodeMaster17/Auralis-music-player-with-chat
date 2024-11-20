@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { Slider } from "@radix-ui/react-slider";
 import { Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react"
 
 const PlayerControls = () => {
@@ -51,6 +52,20 @@ const PlayerControls = () => {
                 >
                     <Repeat className='h-4 w-4' />
                 </Button>
+
+                {/* slider for song */}
+                <div className='hidden sm:flex items-center gap-2 w-full'>
+                    <div className='text-xs text-zinc-400'>2:50</div>
+                    <Slider
+                        // value={[currentTime]}
+                        value={[50]}
+                        max={100}
+                        step={1}
+                        className='w-full hover:cursor-grab active:cursor-grabbing'
+                    // onValueChange={handleSeek}
+                    />
+                    <div className='text-xs text-zinc-400'>23:50</div>
+                </div>
             </div>
         </div>
     )
