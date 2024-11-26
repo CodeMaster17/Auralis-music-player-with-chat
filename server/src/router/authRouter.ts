@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import apiController from '../controller/apiController'
+import { register } from '../controller/userController'
 import authentication from '../middleware/authentication'
 import rateLimit from '../middleware/rateLimit'
 
@@ -9,7 +10,7 @@ router.route('/self').get(apiController.self)
 router.route('/health').get(apiController.health)
 
 // Authentication routes
-router.route('/register').post(rateLimit, apiController.register)
+router.route('/register').post(rateLimit, register)
 
 router.route('/confirmation/:token').put(rateLimit, apiController.confirmation)
 
