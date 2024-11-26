@@ -65,3 +65,4 @@ export interface IChangePasswordRequestBody {
     newPassword: string
     confirmNewPassword: string
 }
+
