@@ -46,41 +46,6 @@ const userSchema = new mongoose.Schema<IUser>(
             enum: EUserRole,
             required: true
         },
-        accountConfirmation: {
-            _id: false,
-            status: {
-                type: Boolean,
-                default: false,
-                required: true
-            },
-            token: {
-                type: String,
-                required: true
-            },
-            code: {
-                type: String,
-                required: true
-            },
-            timestamp: {
-                type: Date,
-                default: null
-            }
-        },
-        passwordReset: {
-            _id: false,
-            token: {
-                type: String,
-                default: null
-            },
-            expiry: {
-                type: Number,
-                default: null
-            },
-            lastResetAt: {
-                type: Date,
-                default: null
-            }
-        },
         lastLoginAt: {
             type: Date,
             default: null
