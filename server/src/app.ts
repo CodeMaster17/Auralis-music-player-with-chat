@@ -6,14 +6,13 @@ import songsRoutes from './router/songRoutes'
 import adminRoutes from './router/adminRoutes'
 import albumRoutes from './router/albumRoutes'
 import statRoutes from './router/statRoutes'
-
 import globalErrorHandler from './middleware/globalErrorHandler'
 import responseMessage from './constant/responseMessage'
 import httpError from './util/httpError'
 import helmet from 'helmet'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-
+import fileUpload from 'express-fileupload'
 const app: Application = express()
 
 // Middleware
@@ -28,13 +27,23 @@ app.use(
 )
 app.use(express.json())
 app.use(express.static(path.join(__dirname, '../', 'public')))
-
+app.use(
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: path.join(__dirname, '../', 'temp'),
+        createParentPath: true,
+        limits: { fileSize: 10 * 1024 * 1024 } // 10MB
+    })
+)
 // Routes
+app.use('/file')
 app.use('/api/v1', router)
 app.use('/api/v1/songs', songsRoutes)
 app.use('/api/v1/admin', adminRoutes)
 app.use('/api/v1/albums', albumRoutes)
 app.use('/api/v1/stats', statRoutes)
+
+
 // 404 Handler
 app.use((req: Request, _: Response, next: NextFunction) => {
     try {
