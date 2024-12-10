@@ -13,6 +13,7 @@ import helmet from 'helmet'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import fileUpload from 'express-fileupload'
+import { clerkMiddleware } from '@clerk/express'
 const app: Application = express()
 
 // Middleware
@@ -25,6 +26,7 @@ app.use(
         credentials: true
     })
 )
+app.use(clerkMiddleware())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, '../', 'public')))
 app.use(
@@ -57,4 +59,6 @@ app.use((req: Request, _: Response, next: NextFunction) => {
 app.use(globalErrorHandler)
 
 export default app
+
+
 

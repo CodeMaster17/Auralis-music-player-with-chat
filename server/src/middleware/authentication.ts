@@ -1,40 +1,31 @@
-import { NextFunction, Request, Response } from 'express'
-import { IUser } from '../types/userTypes'
-import quicker from '../util/quicker'
-import config from '../config/config'
-import { IDecryptedJwt } from '../types/userTypes'
-import databaseService from '../service/databaseService'
+import { clerkClient } from '@clerk/express'
 import httpError from '../util/httpError'
-import responseMessage from '../constant/responseMessage'
+import { NextFunction, Request } from 'express'
 
-interface IAuthenticatedRequest extends Request {
-    authenticatedUser: IUser
-}
-
-export default async (request: Request, _res: Response, next: NextFunction) => {
-    try {
-        const req = request as IAuthenticatedRequest
-
-        const { cookies } = req
-
-        const { accessToken } = cookies as {
-            accessToken: string | undefined
-        }
-
-        if (accessToken) {
-            // Verify Token
-            const { userId } = quicker.verifyToken(accessToken, config.ACCESS_TOKEN.SECRET as string) as IDecryptedJwt
-
-            // Find User by id
-            const user = await databaseService.findUserById(userId)
-            if (user) {
-                req.authenticatedUser = user
-                return next()
-            }
-        }
-
-        httpError(next, new Error(responseMessage.UNAUTHORIZED), req, 401)
-    } catch (err) {
-        httpError(next, err, request, 500)
+interface AuthenticatedRequest extends Request {
+    auth: {
+        userId: string
     }
 }
+
+export const protectRoute = (req: AuthenticatedRequest, _: Response, next: NextFunction) => {
+    if (!req.auth.userId) {
+        return httpError(next, new Error('User not authenticated'), req, 404)
+    }
+    next()
+}
+export const requireAdmin = async (req: AuthenticatedRequest, _: Response, next: NextFunction) => {
+    try {
+        const currentUser = await clerkClient.users.getUser(req.auth.userId)
+        const isAdmin = process.env.ADMIN_EMAIL === currentUser.primaryEmailAddress?.emailAddress
+
+        if (!isAdmin) {
+            return httpError(next, new Error('Unauthorized - you must be an admin'), req, 403)
+        }
+
+        next()
+    } catch (error) {
+        next(error)
+    }
+}
+
