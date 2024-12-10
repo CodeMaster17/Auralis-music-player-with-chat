@@ -1,19 +1,10 @@
 import { JwtPayload } from 'jsonwebtoken'
-import { EUserRole } from '../constant/userConstant'
 
 export interface IUser {
-    name: string
-    emailAddress: string
-    phoneNumber: {
-        isoCode: string
-        countryCode: string
-        internationalNumber: string
-    }
-    timezone: string
-    password: string
-    role: EUserRole.USER
-    lastLoginAt: Date | null
-    consent: boolean
+    fullName: string
+    imageUrl: string
+    clerkId: string
+    
 }
 
 export interface IUserWithId extends IUser {
@@ -54,4 +45,5 @@ export interface IChangePasswordRequestBody {
     newPassword: string
     confirmNewPassword: string
 }
+
 
